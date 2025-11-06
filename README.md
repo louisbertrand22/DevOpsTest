@@ -100,8 +100,8 @@ The application will be accessible at `http://localhost:8000`
 # Build the Docker image locally
 docker build -t devopstest-web:latest .
 
-# For minikube, load the image into minikube's Docker daemon
-# minikube image load devopstest-web:latest
+# If using minikube, load the image into minikube's Docker daemon
+minikube image load devopstest-web:latest
 
 # The deployment uses imagePullPolicy: Never for local images
 ```
@@ -115,9 +115,10 @@ docker tag devopstest-web:latest <your-registry>/devopstest-web:latest
 # Push to your registry (Docker Hub, GCR, ECR, etc.)
 docker push <your-registry>/devopstest-web:latest
 
-# Update k8s/deployment.yml to use your registry image and change imagePullPolicy
-# image: <your-registry>/devopstest-web:latest
-# imagePullPolicy: Always
+# Update the image in k8s/deployment.yml (line 17) to use your registry:
+# Change: image: devopstest-web:latest
+# To:     image: <your-registry>/devopstest-web:latest
+# And change imagePullPolicy from 'Never' to 'Always' (line 18)
 ```
 
 ### Apply Kubernetes Manifests
