@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: TDevOpsTestDocker
+    ports:
+      - "8000:8000"
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+    volumes:
+      - .:/app
