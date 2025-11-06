@@ -49,12 +49,14 @@ DevOpsTest/
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the application
+# Run the application (Flask defaults to port 5000)
 export FLASK_APP=app
 flask run --host=0.0.0.0 --port=8000
 ```
 
 The application will be available at `http://localhost:8000`
+
+**Note**: Flask's default port is 5000. We specify port 8000 to maintain consistency with the Docker and Kubernetes configurations.
 
 ## Docker Deployment
 
@@ -89,14 +91,38 @@ The application will be accessible at `http://localhost:8000`
 
 - A running Kubernetes cluster (local or remote)
 - kubectl configured to communicate with your cluster
-- Build and push the Docker image to your container registry (or use local images with `imagePullPolicy: Never`)
 
 ### Deploy to Kubernetes
 
+#### Option 1: Using Local Images (for local clusters like minikube)
+
 ```bash
-# Build the Docker image for Kubernetes
+# Build the Docker image locally
 docker build -t devopstest-web:latest .
 
+# For minikube, load the image into minikube's Docker daemon
+# minikube image load devopstest-web:latest
+
+# The deployment uses imagePullPolicy: Never for local images
+```
+
+#### Option 2: Using a Container Registry (for remote clusters)
+
+```bash
+# Tag the image for your registry
+docker tag devopstest-web:latest <your-registry>/devopstest-web:latest
+
+# Push to your registry (Docker Hub, GCR, ECR, etc.)
+docker push <your-registry>/devopstest-web:latest
+
+# Update k8s/deployment.yml to use your registry image and change imagePullPolicy
+# image: <your-registry>/devopstest-web:latest
+# imagePullPolicy: Always
+```
+
+### Apply Kubernetes Manifests
+
+```bash
 # Apply Kubernetes manifests using kubectl
 kubectl apply -f k8s/deployment.yml
 kubectl apply -f k8s/service.yml
