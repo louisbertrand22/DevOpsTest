@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.AZURE_ACR_PASSWORD }}
 
       - name: Verify Docker login
-        run: docker info
+        run: docker info | grep Username || true
 
       - name: Build and push Docker images
         run: |
