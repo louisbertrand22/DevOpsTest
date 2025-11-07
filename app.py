@@ -1,6 +1,12 @@
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, jsonify
+import datetime
+import os
 
 app = Flask(__name__)
+
+# Application metadata
+APP_VERSION = os.getenv('APP_VERSION', '1.0.0')
+START_TIME = datetime.datetime.now()
 
 # HTML template for the documentation
 HTML_TEMPLATE = '''
@@ -139,6 +145,7 @@ HTML_TEMPLATE = '''
         <nav>
             <a href="/">Accueil</a>
             <a href="/deployment">Déploiement Azure</a>
+            <a href="/contribute">Contribuer</a>
             <a href="#docker">Docker</a>
             <a href="#kubernetes">Kubernetes</a>
             <a href="#ingress">Ingress</a>
@@ -569,6 +576,7 @@ DEPLOYMENT_TEMPLATE = '''
         
         <nav>
             <a href="/">Accueil</a>
+            <a href="/contribute">Contribuer</a>
             <a href="#overview">Vue d'ensemble</a>
             <a href="#github-actions">GitHub Actions</a>
             <a href="#docker">Build Docker</a>
@@ -1068,3 +1076,421 @@ def documentation():
 @app.route("/deployment")
 def deployment():
     return render_template_string(DEPLOYMENT_TEMPLATE)
+
+# API Endpoints
+@app.route("/api/health")
+def health_check():
+    """Health check endpoint for Kubernetes liveness/readiness probes"""
+    return jsonify({
+        "status": "healthy",
+        "timestamp": datetime.datetime.now().isoformat()
+    }), 200
+
+@app.route("/api/info")
+def app_info():
+    """Application information endpoint"""
+    uptime = datetime.datetime.now() - START_TIME
+    return jsonify({
+        "application": "DevOps Documentation Hub",
+        "version": APP_VERSION,
+        "author": "Louis BERTRAND",
+        "uptime_seconds": int(uptime.total_seconds()),
+        "start_time": START_TIME.isoformat(),
+        "routes": {
+            "documentation": "/",
+            "deployment_guide": "/deployment",
+            "health": "/api/health",
+            "info": "/api/info"
+        }
+    }), 200
+
+# Contact/Contribution page
+@app.route("/contribute")
+def contribute():
+    """Contribution and contact page"""
+    CONTRIBUTE_TEMPLATE = '''
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribuer - DevOps Documentation Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        nav {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        nav a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 2px solid #667eea;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .content {
+            padding: 40px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin: 20px 0 10px 0;
+        }
+        .section p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .section ul {
+            margin: 15px 0 15px 30px;
+        }
+        .section li {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+        .info-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .contact-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .contact-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤝 Contribuer au Projet</h1>
+            <p>Rejoignez la communauté DevOps</p>
+        </header>
+        
+        <nav>
+            <a href="/">Accueil</a>
+            <a href="/deployment">Déploiement Azure</a>
+            <a href="/contribute">Contribuer</a>
+        </nav>
+        
+        <div class="content">
+            <section class="section">
+                <h2>💡 Comment Contribuer</h2>
+                <p>Ce projet est open-source et les contributions sont les bienvenues&nbsp;! Voici comment vous pouvez participer&nbsp;:</p>
+                
+                <h3>1. Signaler des Problèmes</h3>
+                <p>Si vous trouvez un bug ou avez une suggestion d'amélioration, créez une issue sur GitHub.</p>
+                <div class="code-block">
+# Accédez au dépôt GitHub
+https://github.com/louisbertrand22/DevOpsTest/issues
+                </div>
+                
+                <h3>2. Proposer des Améliorations</h3>
+                <p>Suivez ces étapes pour contribuer du code&nbsp;:</p>
+                <ul>
+                    <li><strong>Fork</strong> le dépôt sur votre compte GitHub</li>
+                    <li>Créez une branche pour votre fonctionnalité (<code>git checkout -b feature/nouvelle-fonctionnalite</code>)</li>
+                    <li>Commitez vos modifications (<code>git commit -am 'Ajout d'une nouvelle fonctionnalité'</code>)</li>
+                    <li>Poussez vers la branche (<code>git push origin feature/nouvelle-fonctionnalite</code>)</li>
+                    <li>Créez une <strong>Pull Request</strong></li>
+                </ul>
+                
+                <h3>3. Améliorer la Documentation</h3>
+                <p>La documentation peut toujours être améliorée. N'hésitez pas à&nbsp;:</p>
+                <ul>
+                    <li>Corriger les fautes de frappe</li>
+                    <li>Ajouter des exemples</li>
+                    <li>Clarifier des sections confuses</li>
+                    <li>Traduire dans d'autres langues</li>
+                </ul>
+            </section>
+            
+            <section class="section">
+                <h2>📋 Bonnes Pratiques</h2>
+                <div class="info-box">
+                    <strong>💡 Directives de Contribution&nbsp;:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Assurez-vous que votre code suit le style existant</li>
+                        <li>Testez vos modifications localement</li>
+                        <li>Écrivez des messages de commit clairs et descriptifs</li>
+                        <li>Documentez les nouvelles fonctionnalités</li>
+                        <li>Soyez respectueux dans vos interactions</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2>📧 Contact</h2>
+                <div class="contact-card">
+                    <h4>GitHub Repository</h4>
+                    <p><a href="https://github.com/louisbertrand22/DevOpsTest" target="_blank">github.com/louisbertrand22/DevOpsTest</a></p>
+                </div>
+                <div class="contact-card">
+                    <h4>Auteur</h4>
+                    <p>Louis BERTRAND</p>
+                    <p>Email: louis.development22@gmail.com</p>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2>🌟 Technologies Utilisées</h2>
+                <p>Ce projet utilise les technologies suivantes&nbsp;:</p>
+                <ul>
+                    <li><strong>Python 3.12</strong> - Langage de programmation</li>
+                    <li><strong>Flask 3.0.2</strong> - Framework web</li>
+                    <li><strong>Docker</strong> - Conteneurisation</li>
+                    <li><strong>Kubernetes</strong> - Orchestration de conteneurs</li>
+                    <li><strong>GitHub Actions</strong> - CI/CD</li>
+                    <li><strong>Azure AKS</strong> - Déploiement cloud</li>
+                </ul>
+            </section>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 DevOps Documentation Hub | Louis BERTRAND</p>
+        </footer>
+    </div>
+</body>
+</html>
+'''
+    return render_template_string(CONTRIBUTE_TEMPLATE)
+
+# Error handlers
+@app.errorhandler(404)
+def page_not_found(e):
+    """Custom 404 error page"""
+    ERROR_404_TEMPLATE = '''
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Non Trouvée</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .error-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 600px;
+        }
+        .error-code {
+            font-size: 8em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1>Page Non Trouvée</h1>
+        <p>Désolé, la page que vous recherchez n'existe pas.</p>
+        <a href="/" class="btn">🏠 Retour à l'accueil</a>
+        <a href="/contribute" class="btn">📧 Signaler un problème</a>
+    </div>
+</body>
+</html>
+'''
+    return render_template_string(ERROR_404_TEMPLATE), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    """Custom 500 error page"""
+    ERROR_500_TEMPLATE = '''
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Erreur Serveur</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .error-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 600px;
+        }
+        .error-code {
+            font-size: 8em;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">500</div>
+        <h1>Erreur Serveur</h1>
+        <p>Une erreur interne s'est produite. Veuillez réessayer plus tard.</p>
+        <a href="/" class="btn">🏠 Retour à l'accueil</a>
+        <a href="/contribute" class="btn">📧 Signaler le problème</a>
+    </div>
+</body>
+</html>
+'''
+    return render_template_string(ERROR_500_TEMPLATE), 500
+
+# Security headers middleware
+@app.after_request
+def add_security_headers(response):
+    """Add security headers to all responses"""
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    return response
