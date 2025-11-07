@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
+
     env:
       DOCKER_CONFIG: ~/.docker
 
@@ -45,17 +48,31 @@ jobs:
           password: ${{ secrets.AZURE_ACR_PASSWORD }}
 
       - name: Debug Docker auths
-        run: | 
+        run: |
           echo "==== DOCKER CONFIG CONTENT ===="
           cat ~/.docker/config.json || echo "No config found"
           echo "==== CURRENT LOGIN SERVERS ===="
           grep -A2 "auths" ~/.docker/config.json || true
 
+      - name: Generate version tag
+        id: version
+        run: |
+          VERSION=$(git rev-parse --short HEAD)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Generated version: $VERSION"
+
       - name: Build and push Docker images
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:latest .
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:latest devopstestaksregistry.azurecr.io/devopstest:latest
+          VERSION=${{ steps.version.outputs.VERSION }}
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:${VERSION} .
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:${VERSION} ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:latest
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:${VERSION} devopstestaksregistry.azurecr.io/devopstest:${VERSION}
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:${VERSION} devopstestaksregistry.azurecr.io/devopstest:latest
+          
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:${VERSION}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:latest
+          
+          docker push devopstestaksregistry.azurecr.io/devopstest:${VERSION}
           docker push devopstestaksregistry.azurecr.io/devopstest:latest
 
   deploy:
@@ -78,7 +95,8 @@ jobs:
 
       - name: Update image in Kubernetes deployment
         run: |
-          kubectl set image deployment/devopstest-deployment devopstest=devopstestaksregistry.azurecr.io/devopstest:latest --record
+          VERSION=${{ needs.build.outputs.version }}
+          kubectl set image deployment/devopstest-deployment devopstest=devopstestaksregistry.azurecr.io/devopstest:${VERSION}
 
       - name: Apply Kubernetes manifests
         run: |
