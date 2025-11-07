@@ -5,11 +5,11 @@ app = Flask(__name__)
 # HTML template for the documentation
 HTML_TEMPLATE = '''
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Documentation</title>
+    <title>Documentation DevOps</title>
     <style>
         * {
             margin: 0;
@@ -132,8 +132,8 @@ HTML_TEMPLATE = '''
 <body>
     <div class="container">
         <header>
-            <h1>🚀 DevOps Documentation Hub</h1>
-            <p>Your comprehensive guide to modern DevOps practices</p>
+            <h1>🚀 Hub de Documentation DevOps</h1>
+            <p>Votre guide complet des pratiques DevOps modernes</p>
         </header>
         
         <nav>
@@ -141,23 +141,23 @@ HTML_TEMPLATE = '''
             <a href="#kubernetes">Kubernetes</a>
             <a href="#ingress">Ingress</a>
             <a href="#cicd">CI/CD</a>
-            <a href="#best-practices">Best Practices</a>
+            <a href="#best-practices">Bonnes Pratiques</a>
         </nav>
         
         <div class="content">
             <section id="docker" class="section">
                 <h2>🐳 Docker</h2>
-                <p>Docker is a platform for developing, shipping, and running applications in containers. Containers package software with all dependencies, ensuring consistency across environments.</p>
+                <p>Docker est une plateforme pour développer, expédier et exécuter des applications dans des conteneurs. Les conteneurs empaquètent les logiciels avec toutes leurs dépendances, garantissant la cohérence entre les environnements.</p>
                 
-                <h3>Key Concepts</h3>
+                <h3>Concepts Clés</h3>
                 <ul>
-                    <li><strong>Images:</strong> Read-only templates containing application code and dependencies</li>
-                    <li><strong>Containers:</strong> Running instances of Docker images</li>
-                    <li><strong>Dockerfile:</strong> Script defining how to build a Docker image</li>
-                    <li><strong>Docker Hub:</strong> Cloud-based registry for storing and sharing Docker images</li>
+                    <li><strong>Images :</strong> Modèles en lecture seule contenant le code de l'application et les dépendances</li>
+                    <li><strong>Conteneurs :</strong> Instances en cours d'exécution des images Docker</li>
+                    <li><strong>Dockerfile :</strong> Script définissant comment construire une image Docker</li>
+                    <li><strong>Docker Hub :</strong> Registre cloud pour stocker et partager des images Docker</li>
                 </ul>
                 
-                <h3>Common Commands</h3>
+                <h3>Commandes Courantes</h3>
                 <div class="code-block">
 # Build an image from Dockerfile
 docker build -t myapp:latest .
@@ -176,24 +176,24 @@ docker stop container_id
                 </div>
                 
                 <div class="highlight">
-                    <strong>💡 Pro Tip:</strong> Use multi-stage builds to reduce image size and improve security by excluding build dependencies from production images.
+                    <strong>💡 Astuce Pro :</strong> Utilisez des builds multi-étapes pour réduire la taille de l'image et améliorer la sécurité en excluant les dépendances de build des images de production.
                 </div>
             </section>
             
             <section id="kubernetes" class="section">
                 <h2>☸️ Kubernetes</h2>
-                <p>Kubernetes (K8s) is an open-source container orchestration platform that automates deployment, scaling, and management of containerized applications.</p>
+                <p>Kubernetes (K8s) est une plateforme d'orchestration de conteneurs open-source qui automatise le déploiement, la mise à l'échelle et la gestion des applications conteneurisées.</p>
                 
-                <h3>Core Components</h3>
+                <h3>Composants Principaux</h3>
                 <ul>
-                    <li><strong>Pods:</strong> Smallest deployable units that contain one or more containers</li>
-                    <li><strong>Deployments:</strong> Manage the desired state of your application</li>
-                    <li><strong>Services:</strong> Expose your application on a network</li>
-                    <li><strong>ConfigMaps & Secrets:</strong> Manage configuration and sensitive data</li>
-                    <li><strong>Namespaces:</strong> Virtual clusters for resource isolation</li>
+                    <li><strong>Pods :</strong> Plus petites unités déployables contenant un ou plusieurs conteneurs</li>
+                    <li><strong>Déploiements :</strong> Gèrent l'état souhaité de votre application</li>
+                    <li><strong>Services :</strong> Exposent votre application sur un réseau</li>
+                    <li><strong>ConfigMaps & Secrets :</strong> Gèrent la configuration et les données sensibles</li>
+                    <li><strong>Namespaces :</strong> Clusters virtuels pour l'isolation des ressources</li>
                 </ul>
                 
-                <h3>Essential kubectl Commands</h3>
+                <h3>Commandes kubectl Essentielles</h3>
                 <div class="code-block">
 # Apply configuration from file
 kubectl apply -f deployment.yml
@@ -219,7 +219,7 @@ kubectl scale deployment/myapp --replicas=3
 kubectl delete -f deployment.yml
                 </div>
                 
-                <h3>Deployment Example</h3>
+                <h3>Exemple de Déploiement</h3>
                 <div class="code-block">
 apiVersion: apps/v1
 kind: Deployment
@@ -245,27 +245,27 @@ spec:
             
             <section id="ingress" class="section">
                 <h2>🌐 Kubernetes Ingress</h2>
-                <p>Ingress manages external access to services in a Kubernetes cluster, typically HTTP/HTTPS. It provides load balancing, SSL termination, and name-based virtual hosting.</p>
+                <p>Ingress gère l'accès externe aux services dans un cluster Kubernetes, généralement HTTP/HTTPS. Il fournit l'équilibrage de charge, la terminaison SSL et l'hébergement virtuel basé sur le nom.</p>
                 
-                <h3>Why Use Ingress?</h3>
+                <h3>Pourquoi Utiliser Ingress ?</h3>
                 <ul>
-                    <li>Single entry point for multiple services</li>
-                    <li>SSL/TLS termination</li>
-                    <li>Path-based and host-based routing</li>
-                    <li>Load balancing across pods</li>
-                    <li>Reduced cloud load balancer costs</li>
+                    <li>Point d'entrée unique pour plusieurs services</li>
+                    <li>Terminaison SSL/TLS</li>
+                    <li>Routage basé sur le chemin et l'hôte</li>
+                    <li>Équilibrage de charge entre les pods</li>
+                    <li>Réduction des coûts d'équilibreur de charge cloud</li>
                 </ul>
                 
-                <h3>Ingress Controller</h3>
-                <p>An Ingress Controller is required to implement the Ingress rules. Popular options include:</p>
+                <h3>Contrôleur Ingress</h3>
+                <p>Un contrôleur Ingress est nécessaire pour implémenter les règles Ingress. Les options populaires incluent :</p>
                 <ul>
-                    <li><strong>NGINX Ingress Controller:</strong> Most widely used</li>
-                    <li><strong>Traefik:</strong> Modern reverse proxy with automatic SSL</li>
-                    <li><strong>HAProxy:</strong> High-performance load balancer</li>
-                    <li><strong>AWS ALB:</strong> Integrated with AWS Application Load Balancer</li>
+                    <li><strong>Contrôleur NGINX Ingress :</strong> Le plus largement utilisé</li>
+                    <li><strong>Traefik :</strong> Proxy inverse moderne avec SSL automatique</li>
+                    <li><strong>HAProxy :</strong> Équilibreur de charge haute performance</li>
+                    <li><strong>AWS ALB :</strong> Intégré avec AWS Application Load Balancer</li>
                 </ul>
                 
-                <h3>Ingress Configuration Example</h3>
+                <h3>Exemple de Configuration Ingress</h3>
                 <div class="code-block">
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -294,26 +294,26 @@ spec:
             </section>
             
             <section id="cicd" class="section">
-                <h2>🔄 CI/CD Pipelines</h2>
-                <p>Continuous Integration and Continuous Deployment (CI/CD) automate the software delivery process from code commit to production deployment.</p>
+                <h2>🔄 Pipelines CI/CD</h2>
+                <p>L'Intégration Continue et le Déploiement Continu (CI/CD) automatisent le processus de livraison logicielle du commit de code au déploiement en production.</p>
                 
-                <h3>CI/CD Workflow</h3>
+                <h3>Flux de Travail CI/CD</h3>
                 <ul>
-                    <li><strong>Continuous Integration:</strong> Automatically build and test code changes</li>
-                    <li><strong>Continuous Delivery:</strong> Automatically prepare releases for deployment</li>
-                    <li><strong>Continuous Deployment:</strong> Automatically deploy to production</li>
+                    <li><strong>Intégration Continue :</strong> Construire et tester automatiquement les modifications de code</li>
+                    <li><strong>Livraison Continue :</strong> Préparer automatiquement les versions pour le déploiement</li>
+                    <li><strong>Déploiement Continu :</strong> Déployer automatiquement en production</li>
                 </ul>
                 
-                <h3>Popular CI/CD Tools</h3>
+                <h3>Outils CI/CD Populaires</h3>
                 <ul>
-                    <li><strong>GitHub Actions:</strong> Native to GitHub repositories</li>
-                    <li><strong>GitLab CI/CD:</strong> Integrated with GitLab</li>
-                    <li><strong>Jenkins:</strong> Open-source automation server</li>
-                    <li><strong>CircleCI:</strong> Cloud-based CI/CD platform</li>
-                    <li><strong>ArgoCD:</strong> GitOps continuous delivery for Kubernetes</li>
+                    <li><strong>GitHub Actions :</strong> Natif aux dépôts GitHub</li>
+                    <li><strong>GitLab CI/CD :</strong> Intégré avec GitLab</li>
+                    <li><strong>Jenkins :</strong> Serveur d'automatisation open-source</li>
+                    <li><strong>CircleCI :</strong> Plateforme CI/CD basée sur le cloud</li>
+                    <li><strong>ArgoCD :</strong> Livraison continue GitOps pour Kubernetes</li>
                 </ul>
                 
-                <h3>GitHub Actions Workflow Example</h3>
+                <h3>Exemple de Flux de Travail GitHub Actions</h3>
                 <div class="code-block">
 name: Deploy to Kubernetes
 
@@ -339,49 +339,49 @@ jobs:
             </section>
             
             <section id="best-practices" class="section">
-                <h2>✨ Best Practices</h2>
+                <h2>✨ Bonnes Pratiques</h2>
                 
-                <h3>Docker Best Practices</h3>
+                <h3>Bonnes Pratiques Docker</h3>
                 <ul>
-                    <li>Use official base images</li>
-                    <li>Minimize layer count and image size</li>
-                    <li>Use .dockerignore to exclude unnecessary files</li>
-                    <li>Run containers as non-root users</li>
-                    <li>Use specific version tags, not <code>latest</code></li>
-                    <li>Scan images for vulnerabilities regularly</li>
+                    <li>Utiliser des images de base officielles</li>
+                    <li>Minimiser le nombre de couches et la taille de l'image</li>
+                    <li>Utiliser .dockerignore pour exclure les fichiers inutiles</li>
+                    <li>Exécuter les conteneurs en tant qu'utilisateurs non-root</li>
+                    <li>Utiliser des tags de version spécifiques, pas <code>latest</code></li>
+                    <li>Scanner régulièrement les images pour les vulnérabilités</li>
                 </ul>
                 
-                <h3>Kubernetes Best Practices</h3>
+                <h3>Bonnes Pratiques Kubernetes</h3>
                 <ul>
-                    <li>Define resource requests and limits</li>
-                    <li>Use health checks (liveness and readiness probes)</li>
-                    <li>Implement proper logging and monitoring</li>
-                    <li>Use namespaces for resource isolation</li>
-                    <li>Store secrets securely, never in plain text</li>
-                    <li>Use ConfigMaps for configuration management</li>
-                    <li>Implement RBAC for access control</li>
-                    <li>Regular cluster updates and security patches</li>
+                    <li>Définir les demandes et limites de ressources</li>
+                    <li>Utiliser des contrôles de santé (sondes de vivacité et de disponibilité)</li>
+                    <li>Implémenter une journalisation et une surveillance appropriées</li>
+                    <li>Utiliser des namespaces pour l'isolation des ressources</li>
+                    <li>Stocker les secrets en toute sécurité, jamais en texte brut</li>
+                    <li>Utiliser ConfigMaps pour la gestion de la configuration</li>
+                    <li>Implémenter RBAC pour le contrôle d'accès</li>
+                    <li>Mises à jour régulières du cluster et correctifs de sécurité</li>
                 </ul>
                 
-                <h3>Security Best Practices</h3>
+                <h3>Bonnes Pratiques de Sécurité</h3>
                 <ul>
-                    <li>Scan container images for vulnerabilities</li>
-                    <li>Use network policies to control traffic</li>
-                    <li>Implement pod security policies</li>
-                    <li>Regularly rotate secrets and credentials</li>
-                    <li>Enable audit logging</li>
-                    <li>Use service mesh for encrypted communication (e.g., Istio)</li>
+                    <li>Scanner les images de conteneurs pour les vulnérabilités</li>
+                    <li>Utiliser des politiques réseau pour contrôler le trafic</li>
+                    <li>Implémenter des politiques de sécurité des pods</li>
+                    <li>Faire une rotation régulière des secrets et identifiants</li>
+                    <li>Activer la journalisation d'audit</li>
+                    <li>Utiliser un service mesh pour la communication chiffrée (par ex., Istio)</li>
                 </ul>
                 
                 <div class="highlight">
-                    <strong>🔒 Security First:</strong> Always follow the principle of least privilege and regularly update your dependencies to patch known vulnerabilities.
+                    <strong>🔒 Sécurité d'Abord :</strong> Suivez toujours le principe du moindre privilège et mettez à jour régulièrement vos dépendances pour corriger les vulnérabilités connues.
                 </div>
             </section>
         </div>
         
         <footer>
-            <p>&copy; 2024 DevOps Documentation Hub | Built with Flask & Docker</p>
-            <p>Deployed on Kubernetes with ❤️</p>
+            <p>&copy; 2024 Hub de Documentation DevOps | Construit avec Flask & Docker</p>
+            <p>Déployé sur Kubernetes avec ❤️</p>
         </footer>
     </div>
 </body>
