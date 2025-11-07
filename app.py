@@ -380,7 +380,7 @@ jobs:
         </div>
         
         <footer>
-            <p>&copy; 2024 Hub de Documentation DevOps | Louis BERTRAND</p>
+            <p>&copy; 2025 Hub de Documentation DevOps | Louis BERTRAND</p>
         </footer>
     </div>
 </body>
