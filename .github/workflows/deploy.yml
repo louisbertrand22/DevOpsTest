@@ -106,7 +106,7 @@ jobs:
       - name: Update image in Kubernetes deployment
         run: |
           VERSION=${{ needs.build.outputs.version }}
-          kubectl set image deployment/devopstest-deployment devopstest=devopstestaksregistry.azurecr.io/devopstest:${VERSION} --record
+          kubectl set image deployment/devopstest-deployment devopstest=devopstestaksregistry.azurecr.io/devopstest:${VERSION}
           echo "Deployed version: ${VERSION}"
 
       - name: Apply Kubernetes manifests
