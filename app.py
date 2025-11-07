@@ -151,10 +151,10 @@ HTML_TEMPLATE = '''
                 
                 <h3>Concepts Clés</h3>
                 <ul>
-                    <li><strong>Images :</strong> Modèles en lecture seule contenant le code de l'application et les dépendances</li>
-                    <li><strong>Conteneurs :</strong> Instances en cours d'exécution des images Docker</li>
-                    <li><strong>Dockerfile :</strong> Script définissant comment construire une image Docker</li>
-                    <li><strong>Docker Hub :</strong> Registre cloud pour stocker et partager des images Docker</li>
+                    <li><strong>Images&nbsp;:</strong> Modèles en lecture seule contenant le code de l'application et les dépendances</li>
+                    <li><strong>Conteneurs&nbsp;:</strong> Instances en cours d'exécution des images Docker</li>
+                    <li><strong>Dockerfile&nbsp;:</strong> Script définissant comment construire une image Docker</li>
+                    <li><strong>Docker Hub&nbsp;:</strong> Registre cloud pour stocker et partager des images Docker</li>
                 </ul>
                 
                 <h3>Commandes Courantes</h3>
@@ -176,7 +176,7 @@ docker stop container_id
                 </div>
                 
                 <div class="highlight">
-                    <strong>💡 Astuce Pro :</strong> Utilisez des builds multi-étapes pour réduire la taille de l'image et améliorer la sécurité en excluant les dépendances de build des images de production.
+                    <strong>💡 Astuce Pro&nbsp;:</strong> Utilisez des builds multi-étapes pour réduire la taille de l'image et améliorer la sécurité en excluant les dépendances de build des images de production.
                 </div>
             </section>
             
@@ -186,11 +186,11 @@ docker stop container_id
                 
                 <h3>Composants Principaux</h3>
                 <ul>
-                    <li><strong>Pods :</strong> Plus petites unités déployables contenant un ou plusieurs conteneurs</li>
-                    <li><strong>Déploiements :</strong> Gèrent l'état souhaité de votre application</li>
-                    <li><strong>Services :</strong> Exposent votre application sur un réseau</li>
-                    <li><strong>ConfigMaps & Secrets :</strong> Gèrent la configuration et les données sensibles</li>
-                    <li><strong>Namespaces :</strong> Clusters virtuels pour l'isolation des ressources</li>
+                    <li><strong>Pods&nbsp;:</strong> Plus petites unités déployables contenant un ou plusieurs conteneurs</li>
+                    <li><strong>Déploiements&nbsp;:</strong> Gèrent l'état souhaité de votre application</li>
+                    <li><strong>Services&nbsp;:</strong> Exposent votre application sur un réseau</li>
+                    <li><strong>ConfigMaps & Secrets&nbsp;:</strong> Gèrent la configuration et les données sensibles</li>
+                    <li><strong>Namespaces&nbsp;:</strong> Clusters virtuels pour l'isolation des ressources</li>
                 </ul>
                 
                 <h3>Commandes kubectl Essentielles</h3>
@@ -257,12 +257,12 @@ spec:
                 </ul>
                 
                 <h3>Contrôleur Ingress</h3>
-                <p>Un contrôleur Ingress est nécessaire pour implémenter les règles Ingress. Les options populaires incluent :</p>
+                <p>Un contrôleur Ingress est nécessaire pour implémenter les règles Ingress. Les options populaires incluent&nbsp;:</p>
                 <ul>
-                    <li><strong>Contrôleur NGINX Ingress :</strong> Le plus largement utilisé</li>
-                    <li><strong>Traefik :</strong> Proxy inverse moderne avec SSL automatique</li>
-                    <li><strong>HAProxy :</strong> Équilibreur de charge haute performance</li>
-                    <li><strong>AWS ALB :</strong> Intégré avec AWS Application Load Balancer</li>
+                    <li><strong>Contrôleur NGINX Ingress&nbsp;:</strong> Le plus largement utilisé</li>
+                    <li><strong>Traefik&nbsp;:</strong> Proxy inverse moderne avec SSL automatique</li>
+                    <li><strong>HAProxy&nbsp;:</strong> Équilibreur de charge haute performance</li>
+                    <li><strong>AWS ALB&nbsp;:</strong> Intégré avec AWS Application Load Balancer</li>
                 </ul>
                 
                 <h3>Exemple de Configuration Ingress</h3>
@@ -299,18 +299,18 @@ spec:
                 
                 <h3>Flux de Travail CI/CD</h3>
                 <ul>
-                    <li><strong>Intégration Continue :</strong> Construire et tester automatiquement les modifications de code</li>
-                    <li><strong>Livraison Continue :</strong> Préparer automatiquement les versions pour le déploiement</li>
-                    <li><strong>Déploiement Continu :</strong> Déployer automatiquement en production</li>
+                    <li><strong>Intégration Continue&nbsp;:</strong> Construire et tester automatiquement les modifications de code</li>
+                    <li><strong>Livraison Continue&nbsp;:</strong> Préparer automatiquement les versions pour le déploiement</li>
+                    <li><strong>Déploiement Continu&nbsp;:</strong> Déployer automatiquement en production</li>
                 </ul>
                 
                 <h3>Outils CI/CD Populaires</h3>
                 <ul>
-                    <li><strong>GitHub Actions :</strong> Natif aux dépôts GitHub</li>
-                    <li><strong>GitLab CI/CD :</strong> Intégré avec GitLab</li>
-                    <li><strong>Jenkins :</strong> Serveur d'automatisation open-source</li>
-                    <li><strong>CircleCI :</strong> Plateforme CI/CD basée sur le cloud</li>
-                    <li><strong>ArgoCD :</strong> Livraison continue GitOps pour Kubernetes</li>
+                    <li><strong>GitHub Actions&nbsp;:</strong> Natif aux dépôts GitHub</li>
+                    <li><strong>GitLab CI/CD&nbsp;:</strong> Intégré avec GitLab</li>
+                    <li><strong>Jenkins&nbsp;:</strong> Serveur d'automatisation open-source</li>
+                    <li><strong>CircleCI&nbsp;:</strong> Plateforme CI/CD basée sur le cloud</li>
+                    <li><strong>ArgoCD&nbsp;:</strong> Livraison continue GitOps pour Kubernetes</li>
                 </ul>
                 
                 <h3>Exemple de Flux de Travail GitHub Actions</h3>
@@ -374,7 +374,7 @@ jobs:
                 </ul>
                 
                 <div class="highlight">
-                    <strong>🔒 Sécurité d'Abord :</strong> Suivez toujours le principe du moindre privilège et mettez à jour régulièrement vos dépendances pour corriger les vulnérabilités connues.
+                    <strong>🔒 Sécurité d'Abord&nbsp;:</strong> Suivez toujours le principe du moindre privilège et mettez à jour régulièrement vos dépendances pour corriger les vulnérabilités connues.
                 </div>
             </section>
         </div>
