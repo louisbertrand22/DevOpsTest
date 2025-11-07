@@ -1,10 +1,12 @@
 # DevOpsTest
 
+**Author**: Louis BERTRAND
+
 A simple Flask web application demonstrating DevOps practices with Docker and Kubernetes deployment configurations.
 
 ## Description
 
-This is a minimal Flask application that serves a "Hello World!" message. It's designed to showcase containerization and orchestration practices using Docker, Docker Compose, and Kubernetes.
+This is a minimal Flask application that serves a "Hello World!" message. It's designed to showcase containerization and orchestration practices using Docker, Docker Compose, and Kubernetes, with automated CI/CD using GitHub Actions.
 
 ## Technology Stack
 
@@ -13,6 +15,7 @@ This is a minimal Flask application that serves a "Hello World!" message. It's d
 - **Docker**: Containerization
 - **Docker Compose**: Multi-container orchestration
 - **Kubernetes**: Container orchestration platform
+- **GitHub Actions**: CI/CD pipeline for automated builds and deployments
 
 ## Prerequisites
 
@@ -85,6 +88,8 @@ docker-compose down
 
 The application will be accessible at `http://localhost:8000`
 
+**Note**: The Docker Compose configuration creates a container named `TDevOpsTestDocker` and enables hot-reloading in development mode by mounting the application directory as a volume.
+
 ## Kubernetes Deployment
 
 ### Prerequisites for Kubernetes
@@ -94,31 +99,34 @@ The application will be accessible at `http://localhost:8000`
 
 ### Deploy to Kubernetes
 
-#### Option 1: Using Local Images (for local clusters like minikube)
+The Kubernetes deployment is configured to use the Docker Hub image `docker.io/louisdev22/devopstest:latest`, which is automatically built and pushed by the GitHub Actions CI/CD pipeline.
+
+#### Using the Pre-built Image from Docker Hub
+
+The default configuration pulls the latest image from Docker Hub:
 
 ```bash
-# Build the Docker image locally
-docker build -t devopstest-web:latest .
-
-# If using minikube, load the image into minikube's Docker daemon
-minikube image load devopstest-web:latest
-
-# The deployment uses imagePullPolicy: Never for local images
+# The deployment.yml already references: docker.io/louisdev22/devopstest:latest
+# No additional image build steps are needed
 ```
 
-#### Option 2: Using a Container Registry (for remote clusters)
+#### Building and Using Your Own Image
+
+If you want to build and use your own image:
 
 ```bash
+# Build the Docker image
+docker build -t devopstest-web:latest .
+
 # Tag the image for your registry
-docker tag devopstest-web:latest <your-registry>/devopstest-web:latest
+docker tag devopstest-web:latest <your-registry>/devopstest:latest
 
 # Push to your registry (Docker Hub, GCR, ECR, etc.)
-docker push <your-registry>/devopstest-web:latest
+docker push <your-registry>/devopstest:latest
 
-# Update the image in k8s/deployment.yml (line 17) to use your registry:
-# Change: image: devopstest-web:latest
-# To:     image: <your-registry>/devopstest-web:latest
-# And change imagePullPolicy from 'Never' to 'Always' (line 18)
+# Update the image in k8s/deployment.yml (line 17):
+# Change: image: docker.io/louisdev22/devopstest:latest
+# To:     image: <your-registry>/devopstest:latest
 ```
 
 ### Apply Kubernetes Manifests
@@ -173,6 +181,29 @@ kubectl delete -f k8s/ingress.yml
 - Application runs on port **8000** by default
 - Can be modified in Dockerfile, docker-compose.yml, and Kubernetes manifests
 
+## CI/CD Pipeline
+
+This project includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that automatically:
+
+1. **Builds** the application when code is pushed to `main` or `master` branches
+2. **Tests** the application (placeholder for future tests)
+3. **Builds and pushes** the Docker image to Docker Hub
+4. **Deploys** the application to a Kubernetes cluster
+
+### Required GitHub Secrets
+
+To use the CI/CD pipeline, configure the following secrets in your GitHub repository:
+
+- `DOCKERHUB_USERNAME`: Your Docker Hub username
+- `DOCKERHUB_TOKEN`: Your Docker Hub access token
+- `KUBECONFIG`: Your Kubernetes cluster configuration file content
+
+### Workflow Triggers
+
+The workflow automatically runs on:
+- Push to `main` branch
+- Push to `master` branch
+
 ## Development
 
 To modify the application:
@@ -181,6 +212,7 @@ To modify the application:
 2. Update `requirements.txt` if adding new dependencies
 3. Rebuild Docker image if using containers
 4. Reapply Kubernetes manifests if deployed to a cluster
+5. Push changes to `main` or `master` branch to trigger the CI/CD pipeline
 
 ## Contributing
 
