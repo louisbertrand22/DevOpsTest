@@ -380,8 +380,7 @@ jobs:
         </div>
         
         <footer>
-            <p>&copy; 2024 Hub de Documentation DevOps | Construit avec Flask & Docker</p>
-            <p>Déployé sur Kubernetes avec ❤️</p>
+            <p>&copy; 2024 Hub de Documentation DevOps | Louis BERTRAND</p>
         </footer>
     </div>
 </body>
