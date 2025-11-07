@@ -44,6 +44,12 @@ jobs:
       - name: Debug ACR login
         run: docker info | grep devopstestaksregistry || true
 
+      - name: Debug ACR login
+        run: |
+          docker info
+          echo "====="
+          cat ~/.docker/config.json
+
       - name: Build and push Docker images
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/devopstest:latest .
