@@ -12,6 +12,8 @@ spec:
       labels:
         app: devopstest
     spec:
+      imagePullSecrets:
+        - name: acr-auth
       containers:
         - name: devopstest
           image: devopstestaksregistry.azurecr.io/devopstest:latest
