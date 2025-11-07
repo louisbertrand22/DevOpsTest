@@ -75,10 +75,6 @@ jobs:
           docker push devopstestaksregistry.azurecr.io/devopstest:${VERSION}
           docker push devopstestaksregistry.azurecr.io/devopstest:latest
 
-      - name: Update image in Kubernetes deployment
-        run: |
-          kubectl set image deployment/devopstest-deployment devopstest=devopstestaksregistry.azurecr.io/devopstest:${{ env.IMAGE_TAG }} --record
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
