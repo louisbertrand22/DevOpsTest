@@ -6,7 +6,17 @@ A simple Flask web application demonstrating DevOps practices with Docker and Ku
 
 ## Description
 
-This is a minimal Flask application that serves a "Hello World!" message. It's designed to showcase containerization and orchestration practices using Docker, Docker Compose, and Kubernetes, with automated CI/CD using GitHub Actions.
+This is a Flask application serving comprehensive DevOps documentation with interactive pages covering Docker, Kubernetes, CI/CD, and deployment practices. It's designed to showcase containerization and orchestration practices using Docker, Docker Compose, and Kubernetes, with automated CI/CD using GitHub Actions.
+
+## Features
+
+- **📚 DevOps Documentation**: Comprehensive guides on Docker, Kubernetes, Ingress, and CI/CD best practices
+- **☁️ Azure Deployment Guide**: Detailed explanation of the Azure AKS deployment pipeline
+- **🤝 Contribution Page**: Information on how to contribute to the project
+- **🏥 Health Check API**: `/api/health` endpoint for Kubernetes liveness/readiness probes
+- **📊 Application Info API**: `/api/info` endpoint providing application metadata and uptime
+- **🔒 Security Headers**: Implemented security best practices with HTTP headers
+- **❌ Custom Error Pages**: User-friendly 404 and 500 error pages
 
 ## Technology Stack
 
@@ -60,6 +70,24 @@ flask run --host=0.0.0.0 --port=8000
 The application will be available at `http://localhost:8000`
 
 **Note**: Flask's default port is 5000. We specify port 8000 to maintain consistency with the Docker and Kubernetes configurations.
+
+### Available Routes
+
+- **`/`**: Main DevOps documentation page
+- **`/deployment`**: Azure deployment guide
+- **`/contribute`**: Contribution and contact information
+- **`/api/health`**: Health check endpoint (returns JSON with status and timestamp)
+- **`/api/info`**: Application metadata (version, uptime, routes)
+
+### API Examples
+
+```bash
+# Health check (useful for Kubernetes probes)
+curl http://localhost:8000/api/health
+
+# Application information
+curl http://localhost:8000/api/info
+```
 
 ## Docker Deployment
 
