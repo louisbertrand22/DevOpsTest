@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: devopstest
-          image: devopstest-web:latest
-          imagePullPolicy: Never
+          image: docker.io/louisdev22/devopstest:latest
           ports:
             - containerPort: 8000
