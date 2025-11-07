@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: devopstest
-          image: docker.io/louisdev22/devopstest:latest
+          image: devopstestaksregistry.azurecr.io/devopstest:latest
           ports:
             - containerPort: 8000
