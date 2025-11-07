@@ -1055,7 +1055,6 @@ kubectl describe certificate devopstest-tls
         
         <footer>
             <p>&copy; 2025 Guide de Déploiement DevOps | Louis BERTRAND</p>
-            <p style="margin-top: 10px;">Application déployée sur Azure Kubernetes Service avec ❤️</p>
         </footer>
     </div>
 </body>
