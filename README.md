@@ -187,8 +187,23 @@ This project includes a GitHub Actions workflow (`.github/workflows/deploy.yml`)
 
 1. **Builds** the application when code is pushed to `main` or `master` branches
 2. **Tests** the application (placeholder for future tests)
-3. **Builds and pushes** the Docker image to Docker Hub
-4. **Deploys** the application to a Kubernetes cluster
+3. **Builds and pushes** the Docker image to Docker Hub and Azure Container Registry (ACR) with automatic versioning
+4. **Deploys** the application to a Kubernetes cluster with the versioned image
+
+### Automatic Image Versioning
+
+The CI/CD pipeline automatically versions Docker images using the Git commit SHA (short format). Each build:
+
+- Generates a unique version tag based on the commit SHA (e.g., `abc1234`)
+- Tags and pushes images to both Docker Hub and ACR with:
+  - Version tag: `devopstest:abc1234`
+  - Latest tag: `devopstest:latest`
+- Deploys the specific versioned image to Kubernetes for rollback capability
+
+This ensures:
+- **Traceability**: Each deployed image can be traced back to its source code commit
+- **Rollback capability**: Previous versions remain available for easy rollback
+- **Consistency**: The same version is deployed across all environments
 
 ### Required GitHub Secrets
 
@@ -196,6 +211,8 @@ To use the CI/CD pipeline, configure the following secrets in your GitHub reposi
 
 - `DOCKERHUB_USERNAME`: Your Docker Hub username
 - `DOCKERHUB_TOKEN`: Your Docker Hub access token
+- `AZURE_ACR_USERNAME`: Your Azure Container Registry username
+- `AZURE_ACR_PASSWORD`: Your Azure Container Registry password
 - `KUBECONFIG`: Your Kubernetes cluster configuration file content
 
 ### Workflow Triggers
