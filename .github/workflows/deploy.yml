@@ -42,9 +42,6 @@ jobs:
           password: ${{ secrets.AZURE_ACR_PASSWORD }}
 
       - name: Debug ACR login
-        run: docker info | grep devopstestaksregistry || true
-
-      - name: Debug ACR login
         run: |
           docker info
           echo "====="
