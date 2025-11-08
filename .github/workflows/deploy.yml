@@ -102,7 +102,7 @@ jobs:
       - name: Set AKS context
         uses: azure/aks-set-context@v3
         with:
-          resource-group: mc_devopstest-rg_devopstest-aks_eastus
+          resource-group: devopstestaksregistry_group
           cluster-name: devopstest-aks
 
       - name: Update image in Kubernetes deployment
