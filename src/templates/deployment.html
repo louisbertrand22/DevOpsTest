@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Guide de Déploiement - DevOps Azure{% endblock %}
+
+{% block header_title %}☁️ Guide de Déploiement Azure{% endblock %}
+{% block header_subtitle %}Comment cette application est déployée sur Azure Kubernetes Service{% endblock %}
+
+{% block nav_extra %}
+<a href="#overview">Vue d'ensemble</a>
+<a href="#github-actions">GitHub Actions</a>
+<a href="#docker">Build Docker</a>
+<a href="#aks">Déploiement AKS</a>
+<a href="#networking">Réseau & Domaine</a>
+<a href="#ssl">SSL/TLS</a>
+{% endblock %}
+
+{% block content %}
+<section id="overview" class="section">
+    <h2>🎯 Vue d'ensemble du Déploiement</h2>
+    <p>Cette application Flask est déployée sur Azure Kubernetes Service (AKS) et accessible via le domaine <code>app.lucho-dev.xyz</code>. Le processus de déploiement est entièrement automatisé grâce à GitHub Actions.</p>
+    
+    <h3>Architecture de Déploiement</h3>
+    <div class="flow-diagram">
+        <div class="flow-step">GitHub Push</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">GitHub Actions</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Build Docker</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Push vers Registres</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Déploiement AKS</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Ingress NGINX</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">app.lucho-dev.xyz</div>
+    </div>
+    
+    <h3>Composants Clés</h3>
+    <ul>
+        <li><strong>GitHub Actions</strong> : Pipeline CI/CD automatisé</li>
+        <li><strong>Docker Hub</strong> : Registre d'images public (docker.io/louisdev22/devopstest)</li>
+        <li><strong>Azure Container Registry (ACR)</strong> : Registre privé Azure (devopstestaksregistry.azurecr.io)</li>
+        <li><strong>Azure Kubernetes Service (AKS)</strong> : Cluster Kubernetes managé</li>
+        <li><strong>NGINX Ingress Controller</strong> : Routage du trafic HTTP/HTTPS</li>
+        <li><strong>cert-manager</strong> : Gestion automatique des certificats SSL</li>
+        <li><strong>Let's Encrypt</strong> : Certificats SSL gratuits</li>
+    </ul>
+</section>
+
+<section id="github-actions" class="section">
+    <h2>🔄 Pipeline GitHub Actions</h2>
+    <p>Le fichier <code>.github/workflows/deploy.yml</code> définit un pipeline CI/CD en deux étapes : <strong>Build</strong> et <strong>Deploy</strong>.</p>
+    
+    <h3>Étape 1 : Build</h3>
+    <p>Cette étape s'exécute à chaque push sur les branches <code>main</code> ou <code>master</code>.</p>
+    
+    <div class="info-box">
+        <strong>💡 Secrets GitHub requis :</strong>
+        <ul style="margin-top: 10px;">
+            <li><code>DOCKERHUB_USERNAME</code> et <code>DOCKERHUB_TOKEN</code></li>
+            <li><code>AZURE_ACR_USERNAME</code> et <code>AZURE_ACR_PASSWORD</code></li>
+            <li><code>KUBECONFIG</code> (pour l'étape de déploiement)</li>
+        </ul>
+    </div>
+</section>
+
+<section id="docker" class="section">
+    <h2>🐳 Build de l'Image Docker</h2>
+    <p>L'application est empaquetée dans une image Docker légère basée sur Python 3.12.</p>
+</section>
+
+<section id="aks" class="section">
+    <h2>☸️ Déploiement sur Azure Kubernetes Service</h2>
+    <p>L'application s'exécute dans un cluster AKS avec les manifests Kubernetes.</p>
+</section>
+
+<section id="networking" class="section">
+    <h2>🌐 Réseau et Configuration du Domaine</h2>
+    <p>Le trafic externe vers l'application passe par un contrôleur NGINX Ingress qui route les requêtes vers le Service Kubernetes.</p>
+</section>
+
+<section id="ssl" class="section">
+    <h2>🔒 Certificats SSL/TLS avec cert-manager</h2>
+    <p>Les certificats SSL sont gérés automatiquement par <strong>cert-manager</strong> et émis gratuitement par <strong>Let's Encrypt</strong>.</p>
+    
+    <div class="success-box">
+        <strong>✅ Résultat :</strong> L'application est accessible en HTTPS sur <a href="https://app.lucho-dev.xyz" target="_blank">https://app.lucho-dev.xyz</a> avec un certificat SSL valide !
+    </div>
+</section>
+{% endblock %}

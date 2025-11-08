@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Erreur Serveur</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code error-500">500</div>
+        <h1>Erreur Serveur</h1>
+        <p>Une erreur interne s'est produite. Veuillez réessayer plus tard.</p>
+        <a href="/" class="btn">🏠 Retour à l'accueil</a>
+        <a href="/contribute" class="btn">📧 Signaler le problème</a>
+    </div>
+</body>
+</html>

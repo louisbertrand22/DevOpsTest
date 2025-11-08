@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Documentation DevOps{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{% block header_title %}🚀 Hub de Documentation DevOps{% endblock %}</h1>
+            <p>{% block header_subtitle %}Votre guide complet des pratiques DevOps modernes{% endblock %}</p>
+        </header>
+        
+        <nav>
+            <a href="/">Accueil</a>
+            <a href="/deployment">Déploiement Azure</a>
+            <a href="/contribute">Contribuer</a>
+            {% block nav_extra %}{% endblock %}
+        </nav>
+        
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 Hub de Documentation DevOps | Louis BERTRAND</p>
+        </footer>
+    </div>
+</body>
+</html>
