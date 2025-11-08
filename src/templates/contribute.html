@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Contribuer - DevOps Documentation Hub{% endblock %}
+
+{% block header_title %}🤝 Contribuer au Projet{% endblock %}
+{% block header_subtitle %}Rejoignez la communauté DevOps{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2>💡 Comment Contribuer</h2>
+    <p>Ce projet est open-source et les contributions sont les bienvenues&nbsp;! Voici comment vous pouvez participer&nbsp;:</p>
+    
+    <h3>1. Signaler des Problèmes</h3>
+    <p>Si vous trouvez un bug ou avez une suggestion d'amélioration, créez une issue sur GitHub.</p>
+    <div class="code-block">
+# Accédez au dépôt GitHub
+https://github.com/louisbertrand22/DevOpsTest/issues
+    </div>
+    
+    <h3>2. Proposer des Améliorations</h3>
+    <p>Suivez ces étapes pour contribuer du code&nbsp;:</p>
+    <ul>
+        <li><strong>Fork</strong> le dépôt sur votre compte GitHub</li>
+        <li>Créez une branche pour votre fonctionnalité (<code>git checkout -b feature/nouvelle-fonctionnalite</code>)</li>
+        <li>Commitez vos modifications (<code>git commit -am 'Ajout d'une nouvelle fonctionnalité'</code>)</li>
+        <li>Poussez vers la branche (<code>git push origin feature/nouvelle-fonctionnalite</code>)</li>
+        <li>Créez une <strong>Pull Request</strong></li>
+    </ul>
+    
+    <h3>3. Améliorer la Documentation</h3>
+    <p>La documentation peut toujours être améliorée. N'hésitez pas à&nbsp;:</p>
+    <ul>
+        <li>Corriger les fautes de frappe</li>
+        <li>Ajouter des exemples</li>
+        <li>Clarifier des sections confuses</li>
+        <li>Traduire dans d'autres langues</li>
+    </ul>
+</section>
+
+<section class="section">
+    <h2>📋 Bonnes Pratiques</h2>
+    <div class="info-box">
+        <strong>💡 Directives de Contribution&nbsp;:</strong>
+        <ul style="margin-top: 10px;">
+            <li>Assurez-vous que votre code suit le style existant</li>
+            <li>Testez vos modifications localement</li>
+            <li>Écrivez des messages de commit clairs et descriptifs</li>
+            <li>Documentez les nouvelles fonctionnalités</li>
+            <li>Soyez respectueux dans vos interactions</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section">
+    <h2>📧 Contact</h2>
+    <div class="contact-card">
+        <h4>GitHub Repository</h4>
+        <p><a href="https://github.com/louisbertrand22/DevOpsTest" target="_blank">github.com/louisbertrand22/DevOpsTest</a></p>
+    </div>
+    <div class="contact-card">
+        <h4>Auteur</h4>
+        <p>Louis BERTRAND</p>
+        <p>Email: louis.development22@gmail.com</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>🌟 Technologies Utilisées</h2>
+    <p>Ce projet utilise les technologies suivantes&nbsp;:</p>
+    <ul>
+        <li><strong>Python 3.12</strong> - Langage de programmation</li>
+        <li><strong>Flask 3.0.2</strong> - Framework web</li>
+        <li><strong>Docker</strong> - Conteneurisation</li>
+        <li><strong>Kubernetes</strong> - Orchestration de conteneurs</li>
+        <li><strong>GitHub Actions</strong> - CI/CD</li>
+        <li><strong>Azure AKS</strong> - Déploiement cloud</li>
+    </ul>
+</section>
+{% endblock %}

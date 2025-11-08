@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - FLASK_APP=app
+      - FLASK_APP=src.app
       - FLASK_ENV=development
     volumes:
       - .:/app

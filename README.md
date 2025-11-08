@@ -42,7 +42,23 @@ Before you begin, ensure you have the following installed:
 
 ```
 DevOpsTest/
-├── app.py                  # Main Flask application
+├── src/                     # Application source code
+│   ├── app.py              # Main Flask application factory
+│   ├── routes/             # Route handlers (blueprints)
+│   │   ├── __init__.py
+│   │   ├── main_routes.py  # Main page routes (/, /deployment, /contribute)
+│   │   ├── api_routes.py   # API endpoints (/api/health, /api/info)
+│   │   └── error_handlers.py # Error page handlers (404, 500)
+│   ├── templates/          # HTML templates
+│   │   ├── base.html       # Base template with common layout
+│   │   ├── index.html      # Homepage (DevOps documentation)
+│   │   ├── deployment.html # Azure deployment guide
+│   │   ├── contribute.html # Contribution page
+│   │   ├── 404.html        # 404 error page
+│   │   └── 500.html        # 500 error page
+│   └── static/             # Static files
+│       └── css/
+│           └── style.css   # Application styles
 ├── requirements.txt        # Python dependencies
 ├── Dockerfile             # Docker image configuration
 ├── docker-compose.yml     # Docker Compose configuration
@@ -63,7 +79,7 @@ DevOpsTest/
 pip install -r requirements.txt
 
 # Run the application (Flask defaults to port 5000)
-export FLASK_APP=app
+export FLASK_APP=src.app
 flask run --host=0.0.0.0 --port=8000
 ```
 
