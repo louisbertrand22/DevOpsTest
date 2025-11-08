@@ -140,6 +140,8 @@ The application will be accessible at `http://localhost:8000`
 
 - A running Kubernetes cluster (local or remote)
 - kubectl configured to communicate with your cluster
+- **NGINX Ingress Controller** installed in your cluster
+- **cert-manager** installed in your cluster (for SSL/TLS certificates)
 
 ### Deploy to Kubernetes
 
@@ -173,32 +175,192 @@ docker push <your-registry>/devopstest:latest
 # To:     image: <your-registry>/devopstest:latest
 ```
 
+### Setting Up Prerequisites
+
+#### 1. Install NGINX Ingress Controller
+
+If you don't have NGINX Ingress Controller installed:
+
+```bash
+# For most Kubernetes clusters
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+
+# For Azure AKS (recommended)
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+
+# Verify installation
+kubectl get pods -n ingress-nginx
+kubectl get svc -n ingress-nginx
+```
+
+#### 2. Install cert-manager
+
+cert-manager is required for automatic SSL/TLS certificate management with Let's Encrypt:
+
+```bash
+# Install cert-manager
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.yaml
+
+# Verify cert-manager is running
+kubectl get pods -n cert-manager
+
+# Wait for cert-manager to be ready
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/instance=cert-manager -n cert-manager --timeout=300s
+```
+
+#### 3. Configure DNS
+
+Ensure your domain points to your cluster's external IP:
+
+```bash
+# Get the external IP of your NGINX Ingress Controller
+kubectl get svc -n ingress-nginx
+
+# Add an A record in your DNS provider:
+# app.lucho-dev.xyz -> <EXTERNAL-IP>
+
+# Verify DNS resolution
+nslookup app.lucho-dev.xyz
+```
+
 ### Apply Kubernetes Manifests
 
 ```bash
-# Apply Kubernetes manifests using kubectl
+# Apply all Kubernetes manifests using Kustomize (recommended)
+# This will deploy the application, service, ingress, and ClusterIssuers
+kubectl apply -k k8s/
+
+# Or apply individually
 kubectl apply -f k8s/deployment.yml
 kubectl apply -f k8s/service.yml
+kubectl apply -f k8s/issuer-staging.yaml
+kubectl apply -f k8s/cluster-issuer.yaml
 kubectl apply -f k8s/ingress.yml
-
-# Or use Kustomize
-kubectl apply -k k8s/
 
 # Check deployment status
 kubectl get pods
 kubectl get services
 kubectl get ingress
+
+# Monitor certificate issuance
+kubectl get certificate
+kubectl get certificaterequest
+kubectl get order
+kubectl get challenge
+```
+
+### SSL/TLS Certificate Management
+
+This project uses cert-manager with Let's Encrypt to automatically provision SSL/TLS certificates.
+
+#### Certificate Issuers
+
+Two ClusterIssuers are configured:
+
+1. **letsencrypt-staging**: For testing (default in ingress.yml)
+   - Uses Let's Encrypt staging environment
+   - Certificates are not trusted by browsers but allow testing without rate limits
+   - Good for development and troubleshooting
+
+2. **letsencrypt-prod**: For production
+   - Uses Let's Encrypt production environment
+   - Issues trusted certificates
+   - Subject to rate limits (50 certificates per domain per week)
+
+#### Switching to Production Certificates
+
+Once you've verified the staging certificate works, switch to production:
+
+```bash
+# Edit the ingress to use the production issuer
+kubectl edit ingress devopstest-ingress
+
+# Change this line:
+#   cert-manager.io/cluster-issuer: letsencrypt-staging
+# To:
+#   cert-manager.io/cluster-issuer: letsencrypt-prod
+
+# Or apply the updated ingress.yml after editing it
+```
+
+#### Troubleshooting Certificate Issues
+
+If the certificate challenge shows as "invalid":
+
+```bash
+# Check the certificate status
+kubectl describe certificate devopstest-tls
+
+# Check certificate request
+kubectl describe certificaterequest
+
+# Check ACME order and challenges
+kubectl get order
+kubectl describe order <order-name>
+
+# Check challenges (this shows the HTTP-01 validation status)
+kubectl get challenge
+kubectl describe challenge <challenge-name>
+
+# Check cert-manager logs
+kubectl logs -n cert-manager deploy/cert-manager
+
+# Common issues and solutions:
+# 1. DNS not pointing to cluster: Verify with 'nslookup app.lucho-dev.xyz'
+# 2. Ingress controller not receiving traffic: Check ingress controller service external IP
+# 3. Firewall blocking port 80: Ensure port 80 is open for HTTP-01 challenge
+# 4. Wrong ingress class: Verify ingress.class is 'nginx' in ClusterIssuer
+```
+
+#### Forcing Certificate Renewal
+
+If you need to recreate the certificate:
+
+```bash
+# Delete the certificate secret and certificate resource
+kubectl delete secret devopstest-tls
+kubectl delete certificate devopstest-tls
+
+# Delete the ingress and reapply to trigger new certificate request
+kubectl delete ingress devopstest-ingress
+kubectl apply -f k8s/ingress.yml
+
+# Monitor the new certificate issuance
+kubectl get certificate --watch
 ```
 
 ### Access the Application
 
 The application is exposed through:
-- **Service**: NodePort on port 8000
-- **Ingress**: Accessible via `http://devopstest.local` (requires Ingress Controller like nginx-ingress)
+- **Service**: ClusterIP on port 8000 (internal cluster access only)
+- **Ingress**: Accessible via `https://app.lucho-dev.xyz` (requires DNS configuration and SSL certificate)
 
-To access via Ingress, add to your `/etc/hosts`:
+#### Accessing via HTTPS (Production)
+
+Once DNS is configured and the certificate is issued:
+
+```bash
+# Check if certificate is ready
+kubectl get certificate devopstest-tls
+
+# Access the application
+curl https://app.lucho-dev.xyz
+# Or open in browser: https://app.lucho-dev.xyz
 ```
-<YOUR_CLUSTER_IP> devopstest.local
+
+#### Accessing via HTTP (Development/Testing)
+
+For local testing without DNS:
+
+```bash
+# Get the external IP of the ingress controller
+kubectl get svc -n ingress-nginx
+
+# Add to your /etc/hosts (Linux/Mac) or C:\Windows\System32\drivers\etc\hosts (Windows)
+<EXTERNAL-IP> app.lucho-dev.xyz
+
+# Test with curl (use -k to ignore staging certificate warning)
+curl -k https://app.lucho-dev.xyz
 ```
 
 ### Clean Up Kubernetes Resources
