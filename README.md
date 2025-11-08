@@ -42,7 +42,8 @@ Before you begin, ensure you have the following installed:
 
 ```
 DevOpsTest/
-├── app.py                  # Main Flask application
+├── src/                     # Application source code
+│   └── app.py              # Main Flask application
 ├── requirements.txt        # Python dependencies
 ├── Dockerfile             # Docker image configuration
 ├── docker-compose.yml     # Docker Compose configuration
@@ -63,7 +64,7 @@ DevOpsTest/
 pip install -r requirements.txt
 
 # Run the application (Flask defaults to port 5000)
-export FLASK_APP=app
+export FLASK_APP=src.app
 flask run --host=0.0.0.0 --port=8000
 ```
 
