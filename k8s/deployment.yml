@@ -13,9 +13,9 @@ spec:
         app: devopstest
     spec:
       imagePullSecrets:
-        - name: acr-auth
+        - name: acr-secret
       containers:
-        - name: devopstest
+        - name: devopstestaksregistry
           image: devopstestaksregistry.azurecr.io/devopstest:latest
           ports:
             - containerPort: 8000

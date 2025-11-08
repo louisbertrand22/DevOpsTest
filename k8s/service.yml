@@ -6,7 +6,6 @@ spec:
   selector:
     app: devopstest
   ports:
-    - protocol: TCP
-      port: 8000
-      targetPort: 8000
-  type: LoadBalancer
+  - port: 8000
+    targetPort: 8000
+  type: ClusterIP
