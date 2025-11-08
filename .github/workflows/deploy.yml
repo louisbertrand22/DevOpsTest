@@ -94,6 +94,13 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
+      - name: Connect to AKS
+        uses: azure/aks-set-context@v3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          cluster-name: devopstest-aks
+          resource-group: mc_devopstest-rg_devopstest-aks_eastus
+
       - name: Update image in Kubernetes deployment
         run: |
           VERSION=${{ needs.build.outputs.version }}
