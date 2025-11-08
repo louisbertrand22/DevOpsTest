@@ -3,22 +3,23 @@ kind: Ingress
 metadata:
   name: devopstest-ingress
   annotations:
+    kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-prod
     acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
   ingressClassName: nginx
   tls:
-    - hosts:
-        - app.lucho-dev.xyz
-      secretName: devopstest-tls
+  - hosts:
+    - app.lucho-dev.xyz
+    secretName: devopstest-tls
   rules:
-    - host: app.lucho-dev.xyz
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: devopstest-service
-                port:
-                  number: 8000
+  - host: app.lucho-dev.xyz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: devopstest-service
+            port:
+              number: 8000
