@@ -2,7 +2,7 @@
 Main Flask application with modular route handlers
 """
 from flask import Flask
-from routes import main_routes, api_routes, error_handlers
+from .routes import main_routes, api_routes, error_handlers
 
 def create_app():
     """Application factory pattern"""
